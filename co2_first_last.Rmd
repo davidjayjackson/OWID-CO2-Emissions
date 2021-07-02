@@ -1,0 +1,43 @@
+---
+title: "CO2 Emissoins by Country and Year"
+author: "David Jackson"
+date: "7/1/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)
+library(lubridate)
+```
+
+## Read Data (Our World In Data)
+
+```{r}
+df <- read.csv("./annual-co2-emissions-per-country.csv") 
+df <- df %>% filter(Annual.CO2.emissions >0)
+```
+```{r}
+ df %>% count(Entity,Code,sort=TRUE)
+```
+
+```{r}
+countries <- df %>% filter(!is.na(Code)) 
+countries %>% count(Entity,sort=TRUE)
+```
+```{r}
+## Shoutout to Jesus M. Castagnetto (r4ds) on slack.com
+df$roc <- df %>%
+  arrange(Entity, Year) %>%
+  group_by(Entity) %>%
+  summarise(
+    first_year = min(Year),
+    last_year = max(Year),
+    roc = (last(Last) - first(First)) / first(First)
+  )
+                    
+```,
+
