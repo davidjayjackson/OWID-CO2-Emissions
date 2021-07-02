@@ -2,6 +2,7 @@
 
 ### Code for Calculating Rate of Change by Country and Year
 
+```
 df <- df %>%
   arrange(Entity, Year) %>%
   group_by(Entity) %>%
@@ -11,3 +12,4 @@ df <- df %>%
     roc = (last(Emissions) - first(Emissions)) / first(Emissions)
   )
     
+```
